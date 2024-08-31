@@ -2,13 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SlimeController : MonoBehaviour
+public class SnailController : MonoBehaviour
 {
     Rigidbody2D rB2D;
-    public GameObject Slime;
-    public GameObject DyingSlime;
-    private int speed = -5;
-    private int lives = 3;
+    public GameObject Snail;
+    public GameObject DyingSnail;
+    private int speed = -3;
+    private int lives = 5;
 
     // Start is called before the first frame update
     void Start()
@@ -27,12 +27,12 @@ public class SlimeController : MonoBehaviour
         {
             speed = 0;
             lives -= 1;
-            Invoke("CreateDyingSlime", .1f);
-            if(lives > 0)
+            Invoke("CreateDyingSnail", .1f);
+            if (lives > 0)
             {
                 StartCoroutine(Recover());
             }
-            else if(lives == 0)
+            else if (lives == 0)
             {
                 StartCoroutine(Die());
             }
@@ -47,7 +47,7 @@ public class SlimeController : MonoBehaviour
     private IEnumerator Recover()
     {
         yield return new WaitForSeconds(.4f);
-        speed = -5;
+        speed = -3;
     }
 
     private IEnumerator Die()
@@ -56,10 +56,10 @@ public class SlimeController : MonoBehaviour
         Destroy(gameObject);
     }
 
-    void CreateDyingSlime()
+    void CreateDyingSnail()
     {
-        transform.position = Slime.GetComponent<Rigidbody2D>().position;
+        transform.position = Snail.GetComponent<Rigidbody2D>().position;
 
-        Instantiate(DyingSlime, (transform.position), Quaternion.identity);
+        Instantiate(DyingSnail, (transform.position), Quaternion.identity);
     }
 }
