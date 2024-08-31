@@ -2,12 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SnakeController : MonoBehaviour
+public class SlimeController : MonoBehaviour
 {
     Rigidbody2D rB2D;
-    public GameObject Snake;
-    public GameObject DyingSnake;
-    private int speed = -7;
+    public GameObject Slime;
+    public GameObject DyingSlime;
+    private int speed = -5;
+    private int lives = 3;
 
     // Start is called before the first frame update
     void Start()
@@ -25,8 +26,16 @@ public class SnakeController : MonoBehaviour
         if (collision.gameObject.tag == "Bullet")
         {
             speed = 0;
-            Invoke("CreateDyingSnake", .1f);
-            StartCoroutine(Die());
+            lives -= 1;
+            Invoke("CreateDyingSlime", .1f);
+            if(lives > 0)
+            {
+                StartCoroutine(Recover());
+            }
+            else
+            {
+                StartCoroutine(Die());
+            }
         }
 
         if (collision.gameObject.tag == "Player")
@@ -35,16 +44,22 @@ public class SnakeController : MonoBehaviour
         }
     }
 
+    private IEnumerator Recover()
+    {
+        yield return new WaitForSeconds(.4f);
+        speed = -5;
+    }
+
     private IEnumerator Die()
     {
         yield return new WaitForSeconds(.2f);
         Destroy(gameObject);
     }
 
-    void CreateDyingSnake()
+    void CreateDyingSlime()
     {
-        transform.position = Snake.GetComponent<Rigidbody2D>().position;
+        transform.position = Slime.GetComponent<Rigidbody2D>().position;
 
-        Instantiate(DyingSnake, (transform.position), Quaternion.identity);
+        Instantiate(DyingSlime, (transform.position), Quaternion.identity);
     }
 }

@@ -50,3 +50,6 @@ TagManager:
   - name: Tank
     uniqueID: 3646425741
     locked: 0
+  - name: HitAnimation
+    uniqueID: 3381278975
+    locked: 0
