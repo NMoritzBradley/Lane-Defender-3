@@ -28,7 +28,6 @@ public class TankController : MonoBehaviour
     public TMP_Text RestartText;
     public TMP_Text LaunchText;
     public int Points;
-    private int lives = 3;
 
     // Start is called before the first frame update
     void Start()
@@ -125,18 +124,6 @@ public class TankController : MonoBehaviour
     {
         Points += 1;
         PointsText.text = Points.ToString(); //Sometimes you might have to use Score.ToString()
-    }
-
-    private void OnCollisionEnter2D(Collision2D collision)
-    {
-        if (collision.gameObject.tag == "Enemy")
-        {
-            lives -=1;
-            if (lives == 0)
-            {
-            Destroy(Tank);
-            }
-        }
     }
 
     private IEnumerator FireAgain()
