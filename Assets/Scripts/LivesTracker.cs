@@ -5,6 +5,7 @@ using UnityEngine.SceneManagement;
 
 public class LivesTracker : MonoBehaviour
 {
+    public AudioClip hurtSound;
     private int lives = 3;
 
     private void OnCollisionEnter2D(Collision2D collision)
@@ -12,7 +13,7 @@ public class LivesTracker : MonoBehaviour
         if (collision.gameObject.tag == "Enemy")
         {
             lives -= 1;
-            print(lives);
+            AudioSource.PlayClipAtPoint(hurtSound, transform.position);
             if (lives == 0)
             {
                 SceneManager.LoadScene(0);
