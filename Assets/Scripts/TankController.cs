@@ -132,6 +132,10 @@ public class TankController : MonoBehaviour
         if (collision.gameObject.tag == "Enemy")
         {
             lives -=1;
+            if (lives == 0)
+            {
+            Destroy(Tank);
+            }
         }
     }
 
