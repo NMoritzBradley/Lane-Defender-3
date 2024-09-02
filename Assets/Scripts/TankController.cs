@@ -112,12 +112,6 @@ public class TankController : MonoBehaviour
         {
             moveDirection = move.ReadValue<float>(); //makes it move left or right
         }
-
-        /*if (EndGameText.text != "") //to turn off the movement ability when the game ends. It's probably not the most efficient way, but it functions
-        {
-            move.started -= Move_started;
-            move.canceled -= Move_canceled;
-        }*/
     }
 
     public void UpdateScore()
