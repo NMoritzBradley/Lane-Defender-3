@@ -1,15 +1,20 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class DyingEnemyController : MonoBehaviour
 {
-    // Start is called before the first frame update
+    /// <summary>
+    /// Starts the Die coroutine
+    /// </summary>
     void Start()
     {
         StartCoroutine(Die());
     }
 
+    /// <summary>
+    /// Destroys the DyingEnemy after .3 seconds
+    /// </summary>
+    /// <returns></returns>
     private IEnumerator Die()
     {
         yield return new WaitForSeconds(.3f);

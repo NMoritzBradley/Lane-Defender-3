@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class EnemySpawner : MonoBehaviour
@@ -15,18 +14,19 @@ public class EnemySpawner : MonoBehaviour
     private int enemyType;
     private int spawnLocation;
     
-    // Start is called before the first frame update
+    /// <summary>
+    /// Starts Spawning
+    /// </summary>
     void Start()
     {
         StartCoroutine(Spawn());
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
+    /// <summary>
+    /// After 2 seconds, randomly determines an enemy to spawn, then calls the enemy spawn function, then calls
+    /// itself to start the coroutine again
+    /// </summary>
+    /// <returns></returns>
     private IEnumerator Spawn()
     {
         yield return new WaitForSeconds(2f);
@@ -46,6 +46,9 @@ public class EnemySpawner : MonoBehaviour
         StartCoroutine(Spawn());
     }
 
+    /// <summary>
+    /// Randomly chooses a SpawnPoint, then spawns a Snake there
+    /// </summary>
     void CreateSnake()
     {
         spawnLocation = Random.Range(1, 6);
@@ -74,6 +77,9 @@ public class EnemySpawner : MonoBehaviour
         Instantiate(Snake, (transform.position), Quaternion.identity);
     }
 
+    /// <summary>
+    /// Randomly chooses a SpawnPoint, then spawns a Slime there
+    /// </summary>
     void CreateSlime()
     {
         spawnLocation = Random.Range(1, 6);
@@ -102,6 +108,9 @@ public class EnemySpawner : MonoBehaviour
         Instantiate(Slime, (transform.position), Quaternion.identity);
     }
 
+    /// <summary>
+    /// Randomly chooses a SpawnPoint, then spawns a Snail there
+    /// </summary>
     void CreateSnail()
     {
         spawnLocation = Random.Range(1, 6);

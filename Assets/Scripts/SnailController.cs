@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class SnailController : MonoBehaviour
@@ -10,17 +9,29 @@ public class SnailController : MonoBehaviour
     private int speed = -3;
     private int lives = 5;
 
-    // Start is called before the first frame update
+    /// <summary>
+    /// Gets the rigidbody
+    /// </summary>
     void Start()
     {
         rB2D = GetComponent<Rigidbody2D>();
     }
 
+    /// <summary>
+    /// Makes it move left
+    /// </summary>
     private void FixedUpdate()
     {
         rB2D.velocity = new Vector2(speed, 0);
     }
 
+    /// <summary>
+    /// When hit by a bullet, stops, loses one life, and creates a DyingSnail object. The Dying Snail has the 
+    /// hit animation and the hit explosion. I know it's a weird way of doing it, but I didn't know how to change 
+    /// animations, and it looks the same as if the Snail object did those animations. It also destroys the snail on
+    /// contact with the player. The player's collision box, by the way, also makes up the back wall
+    /// </summary>
+    /// <param name="collision"></param>
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.gameObject.tag == "Bullet")
@@ -44,18 +55,29 @@ public class SnailController : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Makes it start moving again after being hit
+    /// </summary>
+    /// <returns></returns>
     private IEnumerator Recover()
     {
         yield return new WaitForSeconds(.4f);
         speed = -3;
     }
 
+    /// <summary>
+    /// Destroys the object
+    /// </summary>
+    /// <returns></returns>
     private IEnumerator Die()
     {
         yield return new WaitForSeconds(.2f);
         Destroy(gameObject);
     }
 
+    /// <summary>
+    /// Creates a DyingSnake over the Snake
+    /// </summary>
     void CreateDyingSnail()
     {
         transform.position = Snail.GetComponent<Rigidbody2D>().position;

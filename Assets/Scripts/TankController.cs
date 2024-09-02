@@ -1,11 +1,8 @@
-using System;
 using System.Collections;
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
-using UnityEngine.UIElements.Experimental;
 
 public class TankController : MonoBehaviour
 {
@@ -29,7 +26,9 @@ public class TankController : MonoBehaviour
     public TMP_Text LaunchText;
     public int Points;
 
-    // Start is called before the first frame update
+    /// <summary>
+    /// Enables the ActionMap and all inputs, sets isTankMoving to false and canFire to true
+    /// </summary>
     void Start()
     {
 
@@ -48,6 +47,9 @@ public class TankController : MonoBehaviour
 
     }
 
+    /// <summary>
+    /// Turns off inputs when the tank is Destroyed
+    /// </summary>
     public void OnDestroy() //When the level is reloaded, everything in it is automatically destroyed
     {
         move.started -= Move_started;
@@ -57,35 +59,59 @@ public class TankController : MonoBehaviour
         restart.performed -= Restart_performed;
     }
 
+    /// <summary>
+    /// Sets isTankMoving to false when the key is released
+    /// </summary>
+    /// <param name="obj"></param>
 
     private void Move_canceled(InputAction.CallbackContext obj)
     {
-        //there was an exception here, but it was unecessary so it was deleted
         isTankMoving = false;
     }
 
-    private void Move_started(InputAction.CallbackContext obj) //This function is automatically made when move.started is written above
+    /// <summary>
+    /// Sets isTankMoving to true when the key is pressed
+    /// </summary>
+    /// <param name="obj"></param>
+    private void Move_started(InputAction.CallbackContext obj) 
     {
         isTankMoving = true;
     }
 
+    /// <summary>
+    /// Sets isTankFiring to true and turns on the Explosion object when the key is pressed
+    /// </summary>
+    /// <param name="obj"></param>
     private void Fire_started(InputAction.CallbackContext obj)
     {
         isTankFiring = true;
         Explosion.gameObject.SetActive(true);
     }
 
+    /// <summary>
+    /// Sets isTankFiring to false and turns off the Explosion object when the key is pressed
+    /// </summary>
+    /// <param name="obj"></param>
     private void Fire_canceled(InputAction.CallbackContext obj)
     {
         isTankFiring = false;
         Explosion.gameObject.SetActive(false);
     }
 
+    /// <summary>
+    /// Restarts the scene when the R key is hit
+    /// </summary>
+    /// <param name="obj"></param>
     private void Restart_performed(InputAction.CallbackContext obj)
     {
         SceneManager.LoadScene(0); 
     }
 
+    /// <summary>
+    /// When isTankMoving is true, moves the tank in the appropriate direction. When false, stops the tank
+    /// When isTankFiring and canFire are both true, Invokes CreateBullet, sets canFire to false, and calls 
+    /// the FireAgain Coroutine
+    /// </summary>
     private void FixedUpdate() //modified update, is more consistent
     {
         if (isTankMoving)
@@ -105,7 +131,9 @@ public class TankController : MonoBehaviour
         }
     }
 
-    // Update is called once per frame
+    /// <summary>
+    /// If isTankMoving = true, finds the moveDirection
+    /// </summary>
     void Update()
     {
         if (isTankMoving)
@@ -114,18 +142,19 @@ public class TankController : MonoBehaviour
         }
     }
 
-    public void UpdateScore()
-    {
-        Points += 1;
-        PointsText.text = Points.ToString(); //Sometimes you might have to use Score.ToString()
-    }
-
+    /// <summary>
+    /// After .5 seconds, sets canFire to true
+    /// </summary>
+    /// <returns></returns>
     private IEnumerator FireAgain()
     {
         yield return new WaitForSeconds(.5f);
         canFire = true;
     }
 
+    /// <summary>
+    /// Finds the position of the Tank, then Instantiates a bullet slightly to the right of that point
+    /// </summary>
     void CreateBullet()
     {
         transform.position = new Vector3(Tank.GetComponent<Rigidbody2D>().position.x +1, Tank.GetComponent<Rigidbody2D>().position.y);
